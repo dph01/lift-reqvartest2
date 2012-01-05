@@ -1,0 +1,23 @@
+This is a test to investigate the fact that when I navigate back to a previous page using a link generated from S.referer , 
+the RequestVars are still holding the values they had when the user was last on that page.
+
+Is that intended behaviour? I am carrying around the expectation that RequestVars were always initially unset for a new request
+unless explicitly set using a pattern like: SHtml.link("/nextpage", () => { someRequestVar("fred") }, Text("Next Page") )
+  
+  
+For example, consider navigation between three pages Test, Test2, Test3.
+
+Test 
+ |
+ | Set RequestVar using SHtml.link("/page2", () => { name("fred") }, Text("Page2")) *
+ V
+Test 2
+ |
+ | No RequestVar set
+ V
+Test 3
+ |
+ | Back to Test 2 via S.referer
+ V
+Test 2 - RequestVar has same value as set at (*)
+
